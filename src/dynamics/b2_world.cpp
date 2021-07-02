@@ -40,7 +40,7 @@
 
 #include <new>
 
-b2World::b2World(const b2Vec2& gravity)
+b2World::b2World(const std::function<b2Vec2(const b2Vec2&)>& gravity)
 {
 	m_destructionListener = nullptr;
 	m_debugDraw = nullptr;
@@ -1266,7 +1266,6 @@ void b2World::Dump()
 
 	b2OpenDump("box2d_dump.inl");
 
-	b2Dump("b2Vec2 g(%.9g, %.9g);\n", m_gravity.x, m_gravity.y);
 	b2Dump("m_world->SetGravity(g);\n");
 
 	b2Dump("b2Body** bodies = (b2Body**)b2Alloc(%d * sizeof(b2Body*));\n", m_bodyCount);

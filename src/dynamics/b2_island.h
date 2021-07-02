@@ -26,6 +26,7 @@
 #include "box2d/b2_body.h"
 #include "box2d/b2_math.h"
 #include "box2d/b2_time_step.h"
+#include <functional>
 
 class b2Contact;
 class b2Joint;
@@ -49,7 +50,7 @@ public:
 		m_jointCount = 0;
 	}
 
-	void Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& gravity, bool allowSleep);
+	void Solve(b2Profile* profile, const b2TimeStep& step, const std::function<b2Vec2(const b2Vec2&)>& gravityFunc, bool allowSleep);
 
 	void SolveTOI(const b2TimeStep& subStep, int32 toiIndexA, int32 toiIndexB);
 

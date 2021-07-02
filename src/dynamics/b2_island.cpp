@@ -185,7 +185,7 @@ b2Island::~b2Island()
 	m_allocator->Free(m_bodies);
 }
 
-void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& gravity, bool allowSleep)
+void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const std::function<b2Vec2(const b2Vec2&)>& gravityFunc, bool allowSleep)
 {
 	b2Timer timer;
 
@@ -195,6 +195,7 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 	for (int32 i = 0; i < m_bodyCount; ++i)
 	{
 		b2Body* b = m_bodies[i];
+		auto gravity = gravityFunc(b->GetPosition());
 
 		b2Vec2 c = b->m_sweep.c;
 		float a = b->m_sweep.a;
