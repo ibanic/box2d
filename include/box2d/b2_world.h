@@ -30,6 +30,7 @@
 #include "b2_stack_allocator.h"
 #include "b2_time_step.h"
 #include "b2_world_callbacks.h"
+#include <functional>
 
 struct b2AABB;
 struct b2BodyDef;
@@ -48,7 +49,7 @@ class B2_API b2World
 public:
 	/// Construct a world object.
 	/// @param gravity the world gravity vector.
-	b2World(const b2Vec2& gravity);
+	b2World(const std::function<b2Vec2(const b2Vec2&)>& gravity);
 
 	/// Destruct the world. All physics entities are destroyed and all heap memory is released.
 	~b2World();
@@ -185,10 +186,10 @@ public:
 	float GetTreeQuality() const;
 
 	/// Change the global gravity vector.
-	void SetGravity(const b2Vec2& gravity);
+	void SetGravity(const std::function<b2Vec2(const b2Vec2&)>& gravity);
 
 	/// Get the global gravity vector.
-	b2Vec2 GetGravity() const;
+	const std::function<b2Vec2(const b2Vec2&)>& GetGravity() const;
 
 	/// Is the world locked (in the middle of a time step).
 	bool IsLocked() const;
@@ -237,7 +238,7 @@ private:
 	int32 m_bodyCount;
 	int32 m_jointCount;
 
-	b2Vec2 m_gravity;
+	std::function<b2Vec2(const b2Vec2&)> m_gravity;
 	bool m_allowSleep;
 
 	b2DestructionListener* m_destructionListener;
@@ -306,12 +307,12 @@ inline int32 b2World::GetContactCount() const
 	return m_contactManager.m_contactCount;
 }
 
-inline void b2World::SetGravity(const b2Vec2& gravity)
+inline void b2World::SetGravity(const std::function<b2Vec2(const b2Vec2&)>& gravity)
 {
 	m_gravity = gravity;
 }
 
-inline b2Vec2 b2World::GetGravity() const
+inline const std::function<b2Vec2(const b2Vec2&)>& b2World::GetGravity() const
 {
 	return m_gravity;
 }
