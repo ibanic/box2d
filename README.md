@@ -1,3 +1,5 @@
+# Changes to original: support one-way wall and custom function for gravity (to support globe like gravity)
+
 ![Box2D Logo](https://box2d.org/images/logo.svg)
 
 # Build Status
